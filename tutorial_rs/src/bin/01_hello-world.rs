@@ -6,14 +6,15 @@ use lapin::{
 };
 use tokio_amqp::LapinTokioExt;
 
+/// Basic receiver and sender example.
 #[derive(Debug, Clap)]
-#[clap(setting = AppSettings::ColoredHelp)]
+#[clap(name = "RabbitMQ - Tutorial 01", setting = AppSettings::ColoredHelp)]
 struct Opts {
     #[clap(long, default_value = "127.0.0.1")]
     addr: String,
     #[clap(long, default_value = "5672")]
     port: u32,
-    /// Specify if the mode is `recieve` or `send` if false
+    /// Specify if the mode is `receive` or `send` if false
     #[clap(short, long)]
     receive: bool,
 }
