@@ -41,7 +41,7 @@ async fn receive(channel: Channel) -> Result<()> {
     let consumer = channel
         .basic_consume(
             "hello",
-            "rust_consumer",
+            "",
             BasicConsumeOptions::default(),
             FieldTable::default(),
         )

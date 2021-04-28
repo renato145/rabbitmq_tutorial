@@ -57,7 +57,7 @@ async fn worker(channel: Channel) -> Result<()> {
     let consumer = channel
         .basic_consume(
             "task_queue",
-            "rust_consumer",
+            "",
             BasicConsumeOptions::default(),
             FieldTable::default(),
         )
