@@ -57,7 +57,7 @@ async fn receive(channel: Channel) -> Result<()> {
                     .await
                     .expect("basic_ack");
                 let msg = std::str::from_utf8(&delivery.data).expect("invalid string");
-                println!(" [x] Recieved {}", msg);
+                println!(" [x] Received {}", msg);
             }
             Err(error) => {
                 println!("Error caught in consumer: {}", error)

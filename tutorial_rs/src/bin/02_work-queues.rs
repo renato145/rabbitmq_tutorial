@@ -28,7 +28,7 @@ struct Opts {
     addr: String,
     #[clap(long, default_value = "5672")]
     port: u32,
-    /// Specify if the mode is `recieve` or `send` if false
+    /// Specify if the mode is `receive` or `send` if false
     #[clap(short, long)]
     worker: bool,
 }
