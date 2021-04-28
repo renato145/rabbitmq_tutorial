@@ -47,7 +47,7 @@ async fn new_task(msg: String, channel: Channel) -> Result<()> {
         .await?
         .await?;
 
-    println!("[x] sent {}\nconfirm: {:?}", msg, confirm);
+    println!("[x] Sent {}\nconfirm: {:?}", msg, confirm);
     Ok(())
 }
 

@@ -33,7 +33,7 @@ async fn send(channel: Channel) -> Result<()> {
         .await?
         .await?;
 
-    println!("[x] sent {}\nconfirm: {:?}", payload, confirm);
+    println!("[x] Sent {}\nconfirm: {:?}", payload, confirm);
     Ok(())
 }
 
