@@ -95,7 +95,7 @@ async fn receive_logs_direct(channel: Channel, severities: String) -> Result<()>
         match delivery {
             Ok((_ch, delivery)) => {
                 let msg = std::str::from_utf8(&delivery.data).expect("invalid string");
-                println!(" [x] {}", msg);
+                println!(" [x] \"{}:{}\"", delivery.routing_key, msg);
                 delivery
                     .ack(BasicAckOptions::default())
                     .await
