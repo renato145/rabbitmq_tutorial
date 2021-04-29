@@ -1,8 +1,9 @@
 use clap::{AppSettings, Clap};
 use lapin::{
+    message::DeliveryResult,
     options::{
-        BasicAckOptions, BasicConsumeOptions, BasicPublishOptions,
-        ExchangeDeclareOptions, QueueBindOptions, QueueDeclareOptions,
+        BasicAckOptions, BasicConsumeOptions, BasicPublishOptions, ExchangeDeclareOptions,
+        QueueBindOptions, QueueDeclareOptions,
     },
     types::FieldTable,
     BasicProperties, Channel, Connection, ConnectionProperties, ExchangeKind, Result,
@@ -75,23 +76,27 @@ async fn receive_logs(channel: Channel) -> Result<()> {
         )
         .await?;
 
-    let mut it = consumer.into_iter();
-    println!(" [*] Waiting for messages. To exit press CTRL+C");
-    while let Some(delivery) = it.next() {
+    consumer.set_delegate(|delivery: DeliveryResult| async move {
         match delivery {
-            Ok((_ch, delivery)) => {
-                let msg = std::str::from_utf8(&delivery.data).expect("invalid string");
-                println!(" [x] {}", msg);
-                delivery
-                    .ack(BasicAckOptions::default())
-                    .await
-                    .expect("basic_ack");
+            Ok(delivery) => {
+                if let Some((_ch, delivery)) = delivery {
+                    let msg = std::str::from_utf8(&delivery.data).expect("invalid string");
+                    println!(" [x] {}", msg);
+                    delivery
+                        .ack(BasicAckOptions::default())
+                        .await
+                        .expect("basic_ack");
+                }
             }
             Err(error) => {
                 println!("Error caught in consumer: {}", error)
             }
-        }
-    }
+        };
+    })?;
+
+    let mut it = consumer.into_iter();
+    println!(" [*] Waiting for messages. To exit press CTRL+C");
+    while let Some(_delivery) = it.next() {}
 
     Ok(())
 }
