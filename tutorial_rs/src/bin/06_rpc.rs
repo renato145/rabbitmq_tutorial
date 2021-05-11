@@ -123,8 +123,8 @@ async fn rpc_server(channel: Channel) -> Result<()> {
     while let Some(delivery) = it.next() {
         match delivery {
             Ok((ch, delivery)) => {
-                if delivery.data.len() == 0 {
-                    ()
+                if delivery.data.is_empty() {
+                    return Ok(());
                 }
                 let n = std::str::from_utf8(&delivery.data)
                     .expect("invalid input")
